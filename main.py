@@ -5,7 +5,7 @@ import data_handler
 import model_cache
 import model_evaluation
 import model_trainer
-
+import shap_visuals
 
 FILENAME = "model_new_hyper.model"
 
@@ -22,13 +22,14 @@ c_df.describe()
 
 # ---------------------------- DATA CLEANUP --------------------------
 c_df = data_handler.data_cleanup(c_df)
+print("------------------------------------")
 
 # -------------------------------TWEAKS ------------------------------
 
 
 # c_df = c_df.drop(columns=['latitude', 'longitude'])
 # c_df = c_df.drop(columns=['city'])
-# Model worked best with all of above enabled.
+# Model worked best with all of the above enabled.
 
 
 # ---------------------------- DATA SPLIT ----------------------------
@@ -40,6 +41,7 @@ basic_metrics = model_evaluation.evaluate_model(basic_model, X_test, y_test)
 print("Metrics before tuning")
 model_evaluation.print_metrics(basic_metrics)
 print("------------------------------------")
+
 # ---------------------------- TUNING / LOADING -----------------------
 
 if os.path.isfile(FILENAME):
@@ -58,12 +60,14 @@ print("------------------------------------")
 
 # -------------------------------- SHAP --------------------------------
 
-explainer = shap.TreeExplainer(tuned_model)
-shap_values = explainer.shap_values(X_test)
-shap.summary_plot(shap_values, X_test)
+# explainer = shap.TreeExplainer(tuned_model)
+# shap_values = explainer.shap_values(X_test)
+# shap.summary_plot(shap_values, X_test)
+#
+# expected_value = explainer.expected_value
+# sample_indices = np.random.choice(X_test.shape[0], size=100, replace=False)
+# X_sample = X_test.iloc[sample_indices]
+# shap_values_sample = shap_values[sample_indices]
+# shap.decision_plot(expected_value, shap_values_sample, X_test)
 
-expected_value = explainer.expected_value
-sample_indices = np.random.choice(X_test.shape[0], size=100, replace=False)
-X_sample = X_test.iloc[sample_indices]
-shap_values_sample = shap_values[sample_indices]
-shap.decision_plot(expected_value, shap_values_sample, X_test)
+shap_visuals.shap_visuals(tuned_model, X_test)
