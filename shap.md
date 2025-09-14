@@ -1,6 +1,18 @@
-Summary
+## Model Interpretation Summary (SHAP Analysis)
 
-The SHAP analysis shows that model prediction in majority are driven by four key parameters in this order:
-property size (squareMeters), location (city), construction year (buildYear), and proximity to the city center (centreDistance). Prices also show some monthly fluctuations.
-Secondary features include mostly amenities like elevators, balconies and proximity to various points of interest, with most influence being held by schools, clinics and restaurants.
-While these secondary features have smaller effects, they refine the model’s estimates by capturing practical and contextual factors that influence property value.
+The SHAP analysis indicates that the model’s predictions are primarily driven by four key factors, in order of importance:
+
+1. **Property size (`squareMeters`)**  
+2. **Location (`city`)**  
+3. **Construction year (`buildYear`)**  
+4. **Proximity to the city center (`centreDistance`)**
+
+In addition, property prices exhibit **seasonal fluctuations across months**.
+
+### Secondary Features
+Secondary features further refine the estimates, with the most relevant being:
+
+- **Proximity to points of interest**: schools, clinics, restaurants  
+- **Amenities**: elevators, balconies  
+
+While these variables have smaller individual effects, they enhance the model by incorporating **practical and contextual influences** on property values.
