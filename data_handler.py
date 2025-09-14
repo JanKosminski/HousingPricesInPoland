@@ -1,5 +1,4 @@
 import kagglehub
-import pandas
 import pandas as pd
 import os
 import re

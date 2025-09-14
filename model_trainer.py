@@ -1,5 +1,3 @@
-from matplotlib import pyplot as plt
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import xgboost as xgb
 from sklearn.model_selection import RandomizedSearchCV
 

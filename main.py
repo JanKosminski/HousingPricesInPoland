@@ -1,6 +1,4 @@
 import os
-import numpy as np
-import shap
 import data_handler
 import model_cache
 import model_evaluation

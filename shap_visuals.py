@@ -1,5 +1,4 @@
 import shap
-import xgboost as xgb
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
