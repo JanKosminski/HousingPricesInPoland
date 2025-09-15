@@ -1,8 +1,5 @@
-pandas
-numpy
-scikit-learn
+fastapi
+uvicorn
 xgboost
-shap
-matplotlib
-seaborn
-kagglehub
+pandas
+requests
