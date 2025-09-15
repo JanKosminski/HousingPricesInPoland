@@ -46,6 +46,8 @@ def data_cleanup(df: pd.DataFrame) -> pd.DataFrame:
     # ---- additional data for analysis
     df['month'] = df['date'].dt.month
     df['year'] = df['date'].dt.year
+    df['pricePerSQM'] = df['squareMeters']/df['price']
+    df = df.drop(columns="price")
 
     # encode to categories
     cat_columns = df.select_dtypes(include='object').columns
@@ -56,8 +58,8 @@ def data_cleanup(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def data_split(df: pd.DataFrame):
-    X = df.drop(columns=['price', 'date'])  # Features
-    y = df['price']  # Target
+    X = df.drop(columns=['pricePerSQM', 'date'])  # Features
+    y = df['pricePerSQM']  # Target
     # First split: (train + val) vs test -> 80 : 20
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
