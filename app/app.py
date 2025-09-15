@@ -17,7 +17,7 @@ def load_model_from_github(url):
 
 # Load training at startup
 
-model = load_model_from_github()
+model = load_model_from_github("https://github.com/JanKosminski/HousingPricesInPoland/blob/02602b3c9efcda6d5fba0efe907cae4f62193c60/trained_model/model_new_hyper.model")
 
 # Define input schema
 class PropertyData(BaseModel):
