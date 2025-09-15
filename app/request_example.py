@@ -29,7 +29,6 @@ payload = {
     "hasSecurity": "yes",
     "hasStorageRoom": "no",
     "date": "2023-09-15",
-    "price": 750000
 }
 
 response = requests.post(url, json=payload)
