@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import xgboost as xgb
-
+from data_processing import misc
 
 # Your training loader
 def load_model_from_github(url):
@@ -28,32 +28,36 @@ class PropertyData(BaseModel):
     type: str
     squareMeters: float
     rooms: float
-    floor: float = None
-    floorCount: float = None
-    buildYear: float = None
+    floor: float
+    floorCount: float
+    buildYear: float
     latitude: float
     longitude: float
     centreDistance: float
     poiCount: float
-    schoolDistance: float = None
-    clinicDistance: float = None
-    postOfficeDistance: float = None
-    kindergartenDistance: float = None
-    restaurantDistance: float = None
-    collegeDistance: float = None
-    pharmacyDistance: float = None
+    schoolDistance: float
+    clinicDistance: float
+    postOfficeDistance: float
+    kindergartenDistance: float
+    restaurantDistance: float
+    collegeDistance: float
+    pharmacyDistance: float
     ownership: str
-    buildingMaterial: str = None
-    condition: str = None
+    buildingMaterial: str
+    condition: str
     hasParkingSpace: str
     hasBalcony: str
-    hasElevator: str = None
+    hasElevator: str
     hasSecurity: str
     hasStorageRoom: str
     date: str  # "YYYY-MM-DD"
-    price: int = None
+
 
 app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the prediction API!"}
 
 @app.post("/predict")
 def predict(data: PropertyData):
@@ -64,15 +68,11 @@ def predict(data: PropertyData):
     # Feature engineering
     df["month"] = pd.to_datetime(df["date"]).dt.month
     df["year"] = pd.to_datetime(df["date"]).dt.year
-    df = df.drop(columns=["date"])
-
-    # Fill missing values
-    for col in df.columns:
-        if df[col].isnull().any():
-            df[col].fillna("Unknown" if df[col].dtype == "object" else df[col].median(), inplace=True)
-
+    yes_or_no_columns = ['hasParkingSpace', 'hasBalcony', 'hasElevator', 'hasSecurity', 'hasStorageRoom']
+    df = misc.validate_binary(yes_or_no_columns,df)
     cat_columns = df.select_dtypes(include='object').columns
     df[cat_columns] = df[cat_columns].astype('category')
+    df = df.drop(columns=['date'])
 
     # Predict
     prediction = model.predict(df).tolist()

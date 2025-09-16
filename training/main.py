@@ -1,11 +1,14 @@
 import os
-from training import data_handler
+from data_processing import data_handler
 import model_cache
 import model_evaluation
 import model_trainer
 import shap_visuals
+from pathlib import Path
 
-FILENAME = "../trained_model/model_new_hyper.model"
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+FILENAME = BASE_DIR / "trained_model" / "model_new_hyper.model"
 
 
 # ------------------------ LOADING DATA ------------------------------

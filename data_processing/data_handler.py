@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import re
 from sklearn.model_selection import train_test_split
-import misc
+from . import misc
 
 
 def load_data() -> pd.DataFrame:
@@ -52,8 +52,6 @@ def data_cleanup(df: pd.DataFrame) -> pd.DataFrame:
     # encode to categories
     cat_columns = df.select_dtypes(include='object').columns
     df[cat_columns] = df[cat_columns].astype('category')
-    # df.info()
-    # df.describe()
     return df
 
 

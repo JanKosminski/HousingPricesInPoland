@@ -5,7 +5,7 @@ import re
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import train_test_split, GridSearchCV
-import misc
+from data_processing import misc
 
 # Downloading most recent dataset
 path = kagglehub.dataset_download("krzysztofjamroz/apartment-prices-in-poland")
