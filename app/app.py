@@ -20,7 +20,7 @@ def load_model_from_github(url):
 
 # Load training at startup
 
-model = load_model_from_github("https://raw.githubusercontent.com/JanKosminski/HousingPricesInPoland/docker-and-stuff/trained_model/model_new_hyper.model")
+model = load_model_from_github("https://raw.githubusercontent.com/JanKosminski/HousingPricesInPoland/master/trained_model/model_new_hyper.model")
 
 # Define input schema
 class PropertyData(BaseModel):
