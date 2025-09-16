@@ -6,7 +6,7 @@ import pandas as pd
 import xgboost as xgb
 from data_processing import misc
 
-# Your training loader
+
 def load_model_from_github(url):
     response = requests.get(url)
     with tempfile.NamedTemporaryFile(delete=False) as tmp:
