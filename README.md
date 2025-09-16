@@ -37,7 +37,7 @@ Predictions are driven by property size, location (city), construction year, and
 
 ### Model Training
 
-The part of repository in subdirectories called "data_processing" and "training" were used to train XGBoost Regressor model it uses most basic hypertuning method using scikit-learn RandomizedSearchCV
+The part of repository in subdirectories called "data_processing" and "training" were used to train XGBoost Regressor model it uses most basic hyperparameter tuning method using scikit-learn RandomizedSearchCV
 below is the before and after comparison:
 
 #### Model before hyperparameter tuning:
