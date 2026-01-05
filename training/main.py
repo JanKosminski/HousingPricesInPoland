@@ -15,8 +15,6 @@ DIRECTORY = BASE_DIR / "trained_model"
 # ------------------------ LOADING DATA ------------------------------
 c_df = data_handler.load_data()
 metadata = data_handler.fetch_metadata(c_df)
-with open(DIRECTORY/"metadata.json", "w") as f:
-    json.dump(metadata, f, indent=2)
 # Preview the combined DataFrame
 # print("Combined DataFrame preview:")
 # print(c_df.head())
