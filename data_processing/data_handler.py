@@ -50,8 +50,8 @@ def data_cleanup(df: pd.DataFrame, path) -> pd.DataFrame:
     # ---- additional data for analysis
     df['month'] = df['date'].dt.month
     df['year'] = df['date'].dt.year
-    df['pricePerSQM'] = df['price']/df['squareMeters']
-    df = df.drop(columns="price")
+    df['pricePerSQM'] = df['price'] / df['squareMeters']
+    df = df.drop(columns=["price", "date"])
 
     # encode to categories
     cat_columns = df.select_dtypes(include='object').columns
@@ -59,15 +59,14 @@ def data_cleanup(df: pd.DataFrame, path) -> pd.DataFrame:
 
     df[cat_columns] = encoder.fit_transform(df[cat_columns])
 
-
-    with Path(path/"encoders.pkl").open("wb") as f:
+    with Path(path / "encoders.pkl").open("wb") as f:
         pickle.dump(encoder, f)
 
     return df
 
 
 def data_split(df: pd.DataFrame):
-    X = df.drop(columns=['pricePerSQM', 'date'])  # Features
+    X = df.drop(columns=['pricePerSQM'])  # Features
     y = df['pricePerSQM']  # Target
     # First split: (train + val) vs test -> 80 : 20
     X_train, X_test, y_train, y_test = train_test_split(
@@ -85,5 +84,3 @@ def fetch_metadata(df: pd.DataFrame) -> dict:
     }
     print(f"Metadata:\n{metadata}")
     return metadata
-
-

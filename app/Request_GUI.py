@@ -5,7 +5,7 @@ import requests
 url = "http://localhost:8000/"
 
 payload_template = {
-    "city": "Warsaw",
+    "city": "warszawa",
     "type": "apartment",
     "squareMeters": 75.0,
     "rooms": 3,
