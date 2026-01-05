@@ -95,6 +95,8 @@ def send_request():
 
     # Konwersja typów (FastAPI wymaga poprawnych typów)
     for key, value in payload.items():
+        if isinstance(value, str):
+            normalized = value.replace(',', '.')
         if value.replace('.', '', 1).isdigit():
             payload[key] = float(value) if '.' in value else int(value)
 
