@@ -1,4 +1,7 @@
+import json
 import os
+
+import data_processing
 from data_processing import data_handler
 import model_cache
 import model_evaluation
@@ -8,11 +11,14 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-FILENAME = BASE_DIR / "trained_model" / "model_new_hyper.model"
+DIRECTORY = BASE_DIR / "trained_model"
 
 
 # ------------------------ LOADING DATA ------------------------------
 c_df = data_handler.load_data()
+metadata = data_handler.fetch_metadata(c_df)
+with open(DIRECTORY/"metadata.json", "w") as f:
+    json.dump(metadata, f, indent=2)
 # Preview the combined DataFrame
 # print("Combined DataFrame preview:")
 # print(c_df.head())
@@ -23,6 +29,7 @@ c_df.describe()
 
 # ---------------------------- DATA CLEANUP --------------------------
 c_df = data_handler.data_cleanup(c_df)
+
 print("------------------------------------")
 
 # -------------------------------TWEAKS ------------------------------
@@ -45,13 +52,13 @@ print("------------------------------------")
 
 # ---------------------------- TUNING / LOADING -----------------------
 
-if os.path.isfile(FILENAME):
-    tuned_model = model_cache.load_model(FILENAME)
+if os.path.isfile(DIRECTORY/"model_new_hyper.model"):
+    tuned_model = model_cache.load_model(DIRECTORY)
 else:
     print("No XGBoost training found, training new one.")
     print("-------------------------------------------")
     tuned_model = model_trainer.model_tuner(X_train, y_train)
-    model_cache.save_model(tuned_model, FILENAME)
+    model_cache.save_model(tuned_model, DIRECTORY, metadata)
 
 tuned_metrics = model_evaluation.evaluate_model(tuned_model, X_test, y_test)
 print("Metrics after tuning")

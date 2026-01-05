@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import pandas as pd
 import xgboost as xgb
 from data_processing import misc
-
+import json
 
 def load_model_from_github(url):
     response = requests.get(url)
@@ -18,9 +18,19 @@ def load_model_from_github(url):
     return model
 
 
+def load_metadata_from_github(url):
+    response = requests.get(url)
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        tmp.write(response.content)
+        tmp_path = tmp.name
+
+    with open(tmp_path) as f:
+        metadata = json.load(f)
+    return metadata
 # Load training at startup
 
 model = load_model_from_github("https://raw.githubusercontent.com/JanKosminski/HousingPricesInPoland/master/trained_model/model_new_hyper.model")
+json_meta = load_metadata_from_github("https://raw.githubusercontent.com/JanKosminski/HousingPricesInPoland/master/trained_model/metadata.json")
 
 # Define input schema
 class PropertyData(BaseModel):
@@ -77,3 +87,7 @@ def predict(data: PropertyData):
     # Predict
     prediction = model.predict(df).tolist()
     return {"prediction": prediction}
+
+@app.post("/fetchMeta")
+def fetch_meta():
+    return {"metadata": json_meta}

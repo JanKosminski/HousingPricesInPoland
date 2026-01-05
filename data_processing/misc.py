@@ -91,6 +91,12 @@ def remove_diacritics(text: str) -> str:
     :param text:
     :return text:
     """
+    polish_map= str.maketrans(
+        {"ł": "l", "Ł": "L", "ą": "a", "Ą": "A", "ć": "c", "Ć": "C", "ę": "e", "Ę": "E", "ń": "n", "Ń": "N", "ó": "o",
+         "Ó": "O", "ś": "s", "Ś": "S", "ż": "z", "Ż": "Z", "ź": "z", "Ź": "Z", })
+
+    text = text.translate(polish_map)
+    text = unicodedata.normalize("NFKD", text)
     if isinstance(text, str):
-        return unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('utf-8')
+        return text.encode("ASCII", "ignore").decode("utf-8")
     return text

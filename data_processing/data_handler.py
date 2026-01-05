@@ -63,3 +63,16 @@ def data_split(df: pd.DataFrame):
         X, y, test_size=0.2, random_state=42
     )
     return X_train, X_test, y_train, y_test
+
+
+def fetch_metadata(df: pd.DataFrame) -> dict:
+    filtered_df = df.select_dtypes(include='object').drop(columns='id')
+    clean_df = filtered_df.map(lambda x: misc.remove_diacritics(x.lower()) if isinstance(x, str) else x)
+    metadata = {
+        col: sorted(map(str, clean_df[col].dropna().unique().tolist()))
+        for col in clean_df.columns
+    }
+    print(f"Metadata:\n{metadata}")
+    return metadata
+
+
