@@ -1,7 +1,5 @@
 import json
 import os
-
-import data_processing
 from data_processing import data_handler
 import model_cache
 import model_evaluation
@@ -28,7 +26,7 @@ c_df.info()
 c_df.describe()
 
 # ---------------------------- DATA CLEANUP --------------------------
-c_df = data_handler.data_cleanup(c_df)
+c_df = data_handler.data_cleanup(c_df, DIRECTORY)
 
 print("------------------------------------")
 

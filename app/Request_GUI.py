@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import requests
 
-url = "http://localhost:8000/predict"
+url = "http://localhost:8000/"
 
 payload_template = {
     "city": "Warsaw",
@@ -42,22 +42,18 @@ root.title("Housing price in Poland")
 
 entries = {}
 
-YES_NO = ["yes", "no"]
-CITIES = ["Warsaw", "Krakow", "Gdansk", "Wroclaw"]
-TYPES = ["apartment", "house", "studio"]
-OWNERSHIP = ["private", "cooperative", "municipal"]
-CONDITION = ["poor", "average", "good", "excellent"]
-MATERIAL = ["brick", "panel", "wood", "concrete"]
 
 def create_widget(row, key, value):
     # Grabbing metadata for API
-    api_response = requests.post(url + "/fetchMeta")
+    api_response = requests.post(url + "fetchMeta")
     metadata = api_response.json()["metadata"]
+
 
     # pola z ograniczonym wyborem złapane z jsona
     if key in metadata.keys():
         var = tk.StringVar(value=value)
-        widget = ttk.OptionMenu(root, var, value, metadata[key])
+        options = metadata[key]
+        widget = ttk.OptionMenu(root, var, value, *options)
         widget.grid(row=row, column=1, padx=5, pady=2)
         entries[key] = var
         return
@@ -103,7 +99,7 @@ def send_request():
             payload[key] = float(value) if '.' in value else int(value)
 
     try:
-        response = requests.post(url, json=payload)
+        response = requests.post(url+"predict", json=payload)
         result = response.json()
         data = result["prediction"]
         output_label.config(text=f"Wynik modelu: {data}")

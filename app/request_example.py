@@ -1,6 +1,8 @@
 import requests
 
-url = "http://localhost:8000/predict"
+
+
+url = "http://localhost:8000/"
 payload = {
     "city": "Warsaw",
     "type": "apartment",
@@ -31,5 +33,8 @@ payload = {
     "date": "2023-09-15",
 }
 
-response = requests.post(url, json=payload)
+response = requests.post(url+"predict", json=payload)
 print(response.json())
+
+api_response = requests.post(url + "fetchMeta")
+print(api_response.json())

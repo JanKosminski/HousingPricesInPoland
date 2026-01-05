@@ -1,8 +1,12 @@
+import pickle
+from pathlib import Path
+
 import kagglehub
 import pandas as pd
 import os
 import re
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OrdinalEncoder
 from . import misc
 
 
@@ -34,7 +38,7 @@ def load_data() -> pd.DataFrame:
     return c_df
 
 
-def data_cleanup(df: pd.DataFrame) -> pd.DataFrame:
+def data_cleanup(df: pd.DataFrame, path) -> pd.DataFrame:
     df = df.map(lambda x: misc.remove_diacritics(x.lower()) if isinstance(x, str) else x)
     df = df.drop_duplicates(subset="id", keep="last")
     df = df.drop(columns='id')
@@ -51,7 +55,14 @@ def data_cleanup(df: pd.DataFrame) -> pd.DataFrame:
 
     # encode to categories
     cat_columns = df.select_dtypes(include='object').columns
-    df[cat_columns] = df[cat_columns].astype('category')
+    encoder = OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1)
+
+    df[cat_columns] = encoder.fit_transform(df[cat_columns])
+
+
+    with Path(path/"encoders.pkl").open("wb") as f:
+        pickle.dump(encoder, f)
+
     return df
 
 
