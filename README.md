@@ -33,6 +33,7 @@ Predictions are driven by property size, location (city), construction year, and
 - app/
   - `app.py` — FastAPI based API for Docker integration
   - `request_example.py` — An example of request one can make to the hosted model
+  - `Request_GUI.py` - Tkinter based module for interacting with the model via docker hosted backend.
 - img/ - Charts related to model
 - trained_model/ - As name suggest, model is located in that directory
 
