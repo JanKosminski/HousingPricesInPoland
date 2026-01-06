@@ -14,6 +14,7 @@ It also includes:
 - A FastAPI-based API with an example request for prediction, enabling Docker integration
 - A Dockerfile for containerized deployment
 - A Trained model
+- Tkinter desktop module for interactin with API
 
 Predictions are driven by property size, location (city), construction year, and proximity to city center. Amenities like elevators, balconies, and proximity to points of interest are secondary features which refine model estimates.
 
